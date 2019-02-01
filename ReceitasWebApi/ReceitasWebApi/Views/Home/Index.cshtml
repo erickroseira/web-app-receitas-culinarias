@@ -1,0 +1,117 @@
+﻿<div ng-controller="receitaCtrl">
+    <div class="container text-center">
+        <button type="button" class="btn btn-default" data-target="#addReceita" data-toggle="modal" ng-click="showIngredientesTable(false)">
+            <a href="#"><span class="glyphicon glyphicon-plus"></span></a>Adicionar Receita
+        </button>
+
+        <button type="button" class="btn btn-default" ng-click="showIngredientesTable(true); listarReceitas();">
+            <a href="#"><span class="glyphicon glyphicon-search"></span></a>Visualizar Receitas
+        </button>
+
+    </div>
+
+    <br />
+    <br />
+
+    <div class="container" ng-show="IsVisible">
+        <div class="panel panel-info">
+            <div class="panel-heading">Listagem de Receitas</div>
+
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Id Receita</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Porções</th>
+                        <th scope="col">Calorias</th>
+                        <th scope="col">Ingredientes</th>
+                        <th scope="col">Modo de Preparo</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr ng-repeat="receita in Receitas">
+                        <td>{{receita.ReceitaId}}</td>
+                        <td>{{receita.Nome}}</td>
+                        <td>{{receita.Porcoes}}</td>
+                        <td>{{receita.Calorias}}</td>
+                        <td>
+                            <span ng-repeat="ing in receita.Ingredientes">
+                                {{ing.Nome}}
+                            </span>                            
+                        </td>
+                        <td>{{receita.ModoPreparo}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <div class="modal" id="addReceita" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Adicionar Receita</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" name="Cadastrar_Receita">
+                        <div class="form-group">
+                            <input class="form-control" readonly="readonly" name="receitaId" type="hidden" placeholder="Id Receita" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Nome da Receita*:</label>
+                            <input class="form-control" name="nome" ng-model="nome" placeholder="Digite o nome da Receita" required="required" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Quantidade de Porções (n Pessoas):</label>
+                            <input class="form-control" type="number" name="porcoes" ng-model="porcoes" placeholder="Digite o nome da Receita" required="required" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Quantidade Calorias*:</label>
+                            <input class="form-control" type="number" name="calorias" ng-model="calorias" placeholder="Digite o nome da Receita" required="required" />
+
+                        </div>
+
+                        <div class="form-group">
+                            <label>Ingredientes*</label>
+                            <div ng-model="ingredientes" ng-dropdown-multiselect=""
+                                 options="Ingredientes"
+                                 selected-model="lista_ingr"
+                                 extra-settings="settings">
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label>Modo de Preparo*</label>
+                            <textarea class="form-control" name="modoPreparo" ng-model="modoPreparo" rows="5" id="comment" required="required"></textarea>
+                        </div>
+                    </form>
+                    
+                    <div class="alert alert-info" ng-show="ShowAlert">
+                        <strong>Informação!</strong>  Todos os campos são obrigatórios e necessitam ser preenchidos.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" ng-click="adicionarReceita()">Salvar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="limpaCampos()">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+    @section scripts {
+        <script src="~/Client_App/Receita/Module.js"></script>
+        <script src="~/Client_App/Receita/Service.js"></script>
+        <script src="~/Client_App/Receita/Controller.js"></script>
+    }
